@@ -1,0 +1,36 @@
+* text=auto
+
+*.cs text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.asmdef text eol=lf
+*.asmref text eol=lf
+*.shader text eol=lf
+*.hlsl text eol=lf
+*.cginc text eol=lf
+*.meta text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.csv text eol=lf
+*.tsv text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.psd binary
+*.fbx binary
+*.blend binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.ttf binary
+*.otf binary
+*.xlsx binary
+*.docx binary
+*.pdf binary
+*.unitypackage binary
+
+# Git LFS is not enabled yet. Agree on tracked binary types before adding it.

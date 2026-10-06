@@ -1,0 +1,54 @@
+# Unity / Tuanjie generated directories (project at repository root).
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Exported WeChat projects. Always export to one of these directories.
+/[Mm]inigame/
+/[Ww]eb[Gg][Ll][Bb]uild/
+/[Ee]xports/
+
+# IDE-generated files.
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.opendb
+*.VC.db
+
+# Unity temporary assets and local diagnostics.
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+sysinfo.txt
+crashlytics-build.properties
+/[Aa]ssets/[Aa]sset[Ss]tore[Tt]ools*
+
+# OS and office temporary files.
+.DS_Store
+Thumbs.db
+Desktop.ini
+~$*
+
+# Local credentials. Commit sanitized examples only.
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.keystore
+
+# Keep Assets and their .meta files, Packages, and ProjectSettings tracked.
