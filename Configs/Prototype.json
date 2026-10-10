@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "title": "末日便利店",
+  "startingMoney": 30,
+  "slotsPerDay": 3,
+  "shelfCapacity": 2,
+  "dailyPurchaseLimit": 6,
+  "goods": [
+    {"id":"food","name":"罐头","description":"耐储存的食物，校园互助建立后需求增加。","buyPrice":4,"sellPrice":8,"initialStock":3},
+    {"id":"water","name":"饮用水","description":"避难者的必需品，也可以在探索时交换物资。","buyPrice":3,"sellPrice":6,"initialStock":3},
+    {"id":"medicine","name":"药品","description":"进货昂贵；获得医疗支援后，每时段需求增加。","buyPrice":8,"sellPrice":14,"initialStock":1}
+  ],
+  "days": [
+    {"title":"最后的客流高峰","weather":"阴天 · 高客流","briefing":"附近居民赶来储备物资。医院药房只在今天开放，外出将占用两个营业时段。","radioDialogue":"radio_1","demand":[3,2,1]},
+    {"title":"雨中的避难点","weather":"暴雨 · 低客流","briefing":"暴雨压低客流，校园避难点发出求助。昨天带回的支援会改变今天的商品需求。","radioDialogue":"radio_2","demand":[1,1,1]},
+    {"title":"封锁前的最后一天","weather":"停雨 · 储备需求","briefing":"地铁撤离窗口已经出现。今晚封锁完成，你需要决定把最后的时间留给谁。","radioDialogue":"radio_3","demand":[2,3,2]}
+  ],
+  "npcs": [
+    {"id":"lin","name":"小林","role":"跑腿的学生","dialogue":"lin_intro"},
+    {"id":"xu","name":"许老师","role":"校园避难点联络人","dialogue":"xu_intro"}
+  ],
+  "dialogues": [
+    {"id":"lin_intro","entry":"hello","repeatEntry":"repeat","completedFlag":"hospital_intel","nodes":[
+      {"id":"hello","speaker":"小林","text":"店长，西边医院的备用药房还有存货。封锁队今晚就到，今天是最后的机会。","next":"offer"},
+      {"id":"offer","speaker":"小林","text":"但外出一趟得花两个时段。今天买东西的人很多，你真的舍得关门吗？","choices":[
+        {"id":"lin_map","text":"记下医院的位置","next":"end","effects":[{"type":"flag","id":"hospital_intel"}]}
+      ]},
+      {"id":"end","speaker":"小林","text":"地图上已经标出来了。先看清今天能卖什么，再决定去不去。"},
+      {"id":"repeat","speaker":"小林","text":"医院情报已经记进日志。店里谈话不花时间，真正出发才会消耗时段。"}
+    ]},
+    {"id":"xu_intro","entry":"hello","repeatEntry":"repeat","completedFlag":"school_intel","nodes":[
+      {"id":"hello","speaker":"许老师","text":"学校体育馆收留了一群幸存者。明天道路清理后才能进去，我们最缺的是罐头。","next":"offer"},
+      {"id":"offer","speaker":"许老师","text":"如果你愿意带两份罐头来，大家以后会来你这里补给。帮助他们，也是给店铺找到新顾客。","choices":[
+        {"id":"xu_map","text":"记录校园避难点","next":"end","effects":[{"type":"flag","id":"school_intel"}]}
+      ]},
+      {"id":"end","speaker":"许老师","text":"谢谢。校园节点第 2 天开放。是否援助，等你到了那里再决定。"},
+      {"id":"repeat","speaker":"许老师","text":"记得先查看库存。摆上货架的商品才能卖，留在仓库里的罐头仍然可以用来援助。"}
+    ]},
+    {"id":"radio_1","entry":"news","nodes":[
+      {"id":"news","speaker":"应急广播","text":"今日附近商铺出现储备物资客流高峰。西侧医疗区将于今晚关闭。\n\n你的每天有 3 个行动时段。营业消耗 1 个，医院行动消耗 2 个。阅读、进货和调整货架不花时间。"}
+    ]},
+    {"id":"radio_2","entry":"news","nodes":[
+      {"id":"news","speaker":"应急广播","text":"暴雨持续，客流降低。校园体育馆已开放。\n\n医院外围的值班站尚可进入，有人愿意用药品换饮用水。旧检验档案中可能藏着封锁原因。"}
+    ]},
+    {"id":"radio_3","entry":"news","repeatEntry":"repeat","completedFlag":"subway_intel","nodes":[
+      {"id":"news","speaker":"应急广播","text":"最后一班撤离运输将在今晚经过旧地铁站。收到此消息的居民，请互相转告。","choices":[
+        {"id":"radio_route","text":"标记地铁撤离点","next":"end","effects":[{"type":"flag","id":"subway_intel"}]}
+      ]},
+      {"id":"end","speaker":"应急广播","text":"地铁入口已标记。寻找路线后，可以继续接应撤离人员；你也可以把时间留给营业。"},
+      {"id":"repeat","speaker":"应急广播","text":"地铁情报已记录。今晚所有行动结束后，将结算这三天的经营、互助和调查成果。"}
+    ]},
+    {"id":"hospital_cache","entry":"choice","nodes":[
+      {"id":"choice","speaker":"医院 · 备用药房","text":"药房货架上还有几盒药。一位医务志愿者正在收拾设备。你只能带走一部分东西。\n\n确认选择后消耗 2 个时段。退出事件不会消耗时间。","choices":[
+        {"id":"hospital_supplies","text":"带回药品库存","next":"supplies","effects":[{"type":"stock","id":"medicine","amount":3}]},
+        {"id":"hospital_doctor","text":"邀请医务志愿者协助店铺","next":"doctor","effects":[{"type":"stock","id":"medicine","amount":1},{"type":"support","amount":1},{"type":"trust","amount":1}]}
+      ]},
+      {"id":"supplies","speaker":"行动结果","text":"你把药品安全带回了店铺。记得撤下一类商品，再将药品上架。"},
+      {"id":"doctor","speaker":"医务志愿者","text":"我会来店里设一个简易咨询点。需要药品的人会知道这里；之后每个营业时段的药品需求增加 1。"}
+    ]},
+    {"id":"hospital_records","entry":"choice","nodes":[
+      {"id":"choice","speaker":"医院 · 外围值班站","text":"备用药房已经封闭，外围值班站还在运作。你发现一本被雨打湿的检验档案，也有人愿意拿药品换水。","choices":[
+        {"id":"hospital_truth","text":"保护并带回检验档案","next":"truth","effects":[{"type":"flag","id":"truth"},{"type":"stock","id":"medicine","amount":1}]},
+        {"id":"hospital_trade","text":"用 1 份饮用水交换 2 份药品","next":"trade","effects":[{"type":"stock","id":"water","amount":-1},{"type":"stock","id":"medicine","amount":2}]}
+      ]},
+      {"id":"truth","speaker":"行动结果","text":"档案上的日期早于广播所说的事故时间。封锁似乎并不是临时决定。线索已记入日志。"},
+      {"id":"trade","speaker":"行动结果","text":"交换完成。水减少了，但店里的医疗库存更充足。"}
+    ]},
+    {"id":"school_aid","entry":"choice","nodes":[
+      {"id":"choice","speaker":"校园 · 体育馆","text":"避难者围坐在体育馆里，食品已经见底。附近自动售货机还留着一些补给。","choices":[
+        {"id":"school_give","text":"捐出 2 份罐头，建立互助","next":"help","effects":[{"type":"stock","id":"food","amount":-2},{"type":"trust","amount":2},{"type":"flag","id":"school_helped"}]},
+        {"id":"school_collect","text":"先收集无人领取的补给","next":"collect","effects":[{"type":"stock","id":"food","amount":3},{"type":"stock","id":"water","amount":2}]}
+      ]},
+      {"id":"help","speaker":"许老师","text":"我们会把你的店告诉其他人。从现在起，每个营业时段的罐头需求增加 1；明天还会有人回赠物资。"},
+      {"id":"collect","speaker":"行动结果","text":"你带回了罐头和饮用水。它们可以用于营业，也能留给之后的行动。"}
+    ]},
+    {"id":"school_return","entry":"choice","nodes":[
+      {"id":"choice","speaker":"校园 · 互助回访","text":"昨天受过帮助的人带来了回礼。有人愿意留在街区，也有人想赶上撤离运输。","choices":[
+        {"id":"school_accept","text":"收下大家筹集的补给","next":"end","effects":[{"type":"stock","id":"food","amount":2},{"type":"stock","id":"water","amount":2}]},
+        {"id":"school_shelter","text":"提供街区联络点","next":"end","effects":[{"type":"trust","amount":1},{"type":"money","amount":10}]}
+      ]},
+      {"id":"end","speaker":"行动结果","text":"昨日的援助变成了今天的回报。你和校园避难点的联系更紧密了。"}
+    ]},
+    {"id":"subway_route","entry":"choice","nodes":[
+      {"id":"choice","speaker":"地铁 · 旧入口","text":"隧道里留下了运输标记，售票处旁有一箱急售的备用物资。你只能先调查其中一处。","choices":[
+        {"id":"subway_find","text":"沿运输标记寻找安全路线","next":"route","effects":[{"type":"flag","id":"route"}]},
+        {"id":"subway_salvage","text":"转卖备用物资","next":"cash","effects":[{"type":"money","amount":18}]}
+      ]},
+      {"id":"route","speaker":"行动结果","text":"你找到了安全出口。地铁接应事件已开放；如果还拿到了医院档案，就能让封锁的真相一起离开这里。"},
+      {"id":"cash","speaker":"行动结果","text":"这笔现金可以支持最后的营业，但你错过了本次调查路线的机会。"}
+    ]},
+    {"id":"subway_convoy","entry":"choice","nodes":[
+      {"id":"choice","speaker":"地铁 · 撤离接应","text":"运输队已经到达安全出口。他们可以带走你掌握的档案，也需要有人给撤离者准备食物。","choices":[
+        {"id":"convoy_truth","text":"交出档案，让真相被带出去","next":"end","requiredFlag":"truth","effects":[{"type":"trust","amount":1},{"type":"stock","id":"medicine","amount":1}]},
+        {"id":"convoy_food","text":"提供 1 份罐头作为路上补给","next":"end","effects":[{"type":"stock","id":"food","amount":-1},{"type":"trust","amount":1},{"type":"stock","id":"medicine","amount":2}]}
+      ]},
+      {"id":"end","speaker":"行动结果","text":"最后一批人走进了隧道。你带着运输队的回赠返回店铺，街角的灯还亮着。"}
+    ]}
+  ],
+  "locations": [
+    {"id":"hospital","name":"西侧医院","subtitle":"医疗资源 / 封锁线索","risk":"封锁风险","reward":"药品、医疗支援、检验档案","events":[
+      {"id":"hospital_cache","title":"最后的备用药房","description":"今日限定 · 与高峰营业争夺时间","dialogue":"hospital_cache","requiredFlag":"hospital_intel","minDay":1,"maxDay":1,"cost":2},
+      {"id":"hospital_records","title":"外围值班站","description":"备用药房封闭后的调查机会","dialogue":"hospital_records","requiredFlag":"hospital_intel","minDay":2,"maxDay":2,"cost":1}
+    ]},
+    {"id":"school","name":"校园体育馆","subtitle":"物资补给 / 社区互助","risk":"物资短缺","reward":"罐头、饮用水、顾客联系","events":[
+      {"id":"school_aid","title":"雨中的求助","description":"援助需要 2 份罐头，也可以选择收集补给","dialogue":"school_aid","requiredFlag":"school_intel","minDay":2,"maxDay":2,"cost":1},
+      {"id":"school_return","title":"互助的回响","description":"昨天援助后才会开放","dialogue":"school_return","requiredFlag":"school_helped","minDay":3,"maxDay":3,"cost":1}
+    ]},
+    {"id":"subway","name":"旧地铁站","subtitle":"撤离路线 / 最终选择","risk":"窗口即将关闭","reward":"安全路线、物资、线索出口","events":[
+      {"id":"subway_route","title":"寻找安全出口","description":"先调查路线，或者带回现金","dialogue":"subway_route","requiredFlag":"subway_intel","minDay":3,"maxDay":3,"cost":1},
+      {"id":"subway_convoy","title":"接应最后的运输","description":"找到安全路线后开放","dialogue":"subway_convoy","requiredFlag":"route","minDay":3,"maxDay":3,"cost":1}
+    ]}
+  ]
+}
